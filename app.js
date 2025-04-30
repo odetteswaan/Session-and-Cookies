@@ -14,14 +14,16 @@ app.set('views', 'views');
 
 const adminRoutes = require('./routes/admin');
 const shopRoutes = require('./routes/shop');
+const AuthRoutes=require('./routes/Auth')
 
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use((req, res, next) => {
-  User.findById('5bab316ce0a7c75f783cb8a8')
+  User.findById('680bbc0a77324528b0360a8b')
     .then(user => {
       req.user = user;
+      console.log(user)
       next();
     })
     .catch(err => console.log(err));
@@ -29,12 +31,13 @@ app.use((req, res, next) => {
 
 app.use('/admin', adminRoutes);
 app.use(shopRoutes);
+app.use(AuthRoutes);
 
 app.use(errorController.get404);
 
 mongoose
   .connect(
-    'mongodb+srv://maximilian:9u4biljMQc4jjqbe@cluster0-ntrwp.mongodb.net/shop?retryWrites=true'
+    'mongodb+srv://akash:17082001@cluster0.fo2hosk.mongodb.net/Shop?retryWrites=true&w=majority&appName=Cluster0'
   )
   .then(result => {
     User.findOne().then(user => {
